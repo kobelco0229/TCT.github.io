@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>แบบฟอร์มใบอนุญาตลา</title>
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      background-color: #f5f5f5;
+    }
+    h2 { color: #2c3e50; }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .output {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>แบบฟอร์มใบอนุญาตลา</h2>
+
+  <form id="leaveForm">
+    <label>ชื่อ-นามสกุล:
+      <input type="text" name="name" required>
+    </label>
+
+    <label>ตำแหน่ง:
+      <input type="text" name="position" required>
+    </label>
+
+    <label>ประเภทการลา:
+      <select name="leaveType" required>
+        <option value="">-- กรุณาเลือก --</option>
+        <option value="ลากิจ">ลากิจ</option>
+        <option value="ลาป่วย">ลาป่วย</option>
+        <option value="ลาพักร้อน">ลาพักร้อน</option>
+        <option value="ลาคลอด">ลาคลอด</option>
+      </select>
+    </label>
+
+    <label>วันที่ลา (จาก):
+      <input type="date" name="startDate" required>
+    </label>
+
+    <label>ถึงวันที่:
+      <input type="date" name="endDate" required>
+    </label>
+
+    <label>เหตุผลการลา:
+      <textarea name="reason" rows="3" required></textarea>
+    </label>
+
+    <button type="submit">ส่งใบลา</button>
+  </form>
+
+  <div class="output" id="result" style="display:none;"></div>
+
+  <script>
+    const form = document.getElementById('leaveForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      const values = Object.fromEntries(data.entries());
+
+      result.innerHTML = `
+        <h3>ข้อมูลใบลา</h3>
+        <p><strong>ชื่อ:</strong> ${values.name}</p>
+        <p><strong>ตำแหน่ง:</strong> ${values.position}</p>
+        <p><strong>ประเภทการลา:</strong> ${values.leaveType}</p>
+        <p><strong>วันที่ลา:</strong> ${values.startDate} ถึง ${values.endDate}</p>
+        <p><strong>เหตุผล:</strong> ${values.reason}</p>
+        <button onclick="editForm()">แก้ไขข้อมูล</button>
+      `;
+      result.style.display = 'block';
+      form.style.display = 'none';
+    });
+
+    function editForm() {
+      result.style.display = 'none';
+      form.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>
